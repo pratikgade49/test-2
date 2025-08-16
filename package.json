@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^4.22.0"
+    "@tensorflow/tfjs": "4.15.0",
+    "@tensorflow/tfjs-backend-webgl": "4.15.0",
+    "@tensorflow/tfjs-backend-cpu": "4.15.0"
   },
   "devDependencies": {
     "vite": "^5.0.0"
