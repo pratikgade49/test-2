@@ -51,37 +51,13 @@ def create_model():
     """Create and return the plant disease classification model"""
     try:
         # Check if a saved model exists
-        model_path = 'plant_disease_model.h5'
+        model_path = 'plant_disease_model.keras'  # Change this to your .keras model filename
         if os.path.exists(model_path):
             model = tf.keras.models.load_model(model_path)
+            print(f"Successfully loaded pre-trained model from {model_path}")
             return model
-        
-        # If no saved model, create a new one based on the notebook architecture
-        # This creates a model structure that can be loaded with pre-trained weights
-        base_model = tf.keras.applications.ResNet50(
-            weights='imagenet',
-            include_top=False,
-            input_shape=(224, 224, 3)
-        )
-        
-        # Add custom classification layers
-        model = tf.keras.Sequential([
-            base_model,
-            tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(256, activation='relu'),
-            tf.keras.layers.Dropout(0.5),
-            tf.keras.layers.Dense(38, activation='softmax')  # 38 classes
-        ])
-        
-        model.compile(
-            optimizer='adam',
-            loss='categorical_crossentropy',
-            metrics=['accuracy']
-        )
-        
-        # Initialize with random weights if no pre-trained model is available
-        # In a real deployment, you would load actual trained weights here
-        return model
+        else:
+            raise FileNotFoundError(f"Pre-trained model not found at {model_path}. Please ensure your .keras model file is in the project root directory.")
         
     except Exception as e:
         raise Exception(f"Failed to create model: {str(e)}")
